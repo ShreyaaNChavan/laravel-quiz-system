@@ -15,25 +15,32 @@
             Admin Login
         </h2>
 
-        <form action="" method="POST" class="space-y-4">
+        @error('user')
+            <div class="text-red-500">{{ $message }}</div>
+        @enderror
+
+        <form action="/admin-login" method="POST" class="space-y-4">
             @csrf
 
             <div>
-                <label for="name" class="text-gray-600 mb-1 block">
-                    Admin Name
-                </label>
+                <label for="name" class="text-gray-600 mb-1 block"> Admin Name</label>
 
                 <input type="text" id="name" name="name" placeholder="Enter Admin name"
                     class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none">
+
+                @error('name')
+                    <div class="text-red-500">{{ $message }}</div>
+                @enderror
             </div>
 
             <div>
-                <label for="password" class="text-gray-600 mb-1 block">
-                    Password
-                </label>
+                <label for="password" class="text-gray-600 mb-1 block"> Password</label>
 
                 <input type="password" id="password" name="password" placeholder="Enter Admin password"
                     class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none">
+                @error('password')
+                    <div class="text-red-500">{{ $message }}</div>
+                @enderror
             </div>
 
             <button type="submit" class="w-full bg-blue-500 text-white rounded-xl px-4 py-2 hover:bg-blue-600">
