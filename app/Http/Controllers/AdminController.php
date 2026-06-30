@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -23,8 +24,8 @@ class AdminController extends Controller
         if (!$admin) {
             $validation = $request->validate([
                 "user" => "required",
-            ],[
-                "user.required"=>"User does not exists!"
+            ], [
+                "user.required" => "User does not exists!"
             ]);
         }
 
@@ -32,14 +33,64 @@ class AdminController extends Controller
         return redirect('dashboard');
     }
 
-    //this is dashboard
-    function dashboard(){
-    $admin= Session::get('admin');   
-    if($admin){
-        return view('admin', ["name" => $admin->name]);
-    } else{
+
+    function dashboard()
+    {
+        $admin = Session::get('admin');
+        if ($admin) {
+            return view('admin', ["name" => $admin->name]);
+        } else {
+            return redirect('admin-login');
+        }
+    }
+
+    function categories()
+    {
+        $categories = Category::get();
+        $admin = Session::get('admin');
+        if ($admin) {
+            return view('categories', ["name" => $admin->name, "categories" => $categories]);
+        } else {
+            return redirect('admin-login');
+        }
+    }
+
+    function logout()
+    {
+        Session::forget('admin');
+
         return redirect('admin-login');
+
     }
-    
+
+    public function addCategory(Request $request)
+    {
+        $validation = $request->validate([
+            "category" => "required | min:3 | unique:categories,name"
+        ]);
+        $admin = Session::get('admin');
+
+        $category = new Category();
+
+        $category->name = $request->category;
+        $category->creator = $admin->name;
+
+        if ($category->save()) {
+            Session::flash('category', 'Succsess: Category ' . $request->category . " Added");
+        }
+
+        return redirect('admin-categories');
     }
+
+    function deleteCategory($id)
+    {
+        $isDeleted = Category::find($id)->delete();
+        if ($isDeleted) {
+            Session::flash('category',"Succuess: Category deleted.");
+            return redirect('admin-categories');
+        }
+    }
+
+
+
 }
