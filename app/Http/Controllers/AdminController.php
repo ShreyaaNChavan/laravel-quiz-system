@@ -32,7 +32,7 @@ class AdminController extends Controller
         return redirect('dashboard');
     }
 
-
+    //this is dashboard
     function dashboard(){
     $admin= Session::get('admin');   
     if($admin){
