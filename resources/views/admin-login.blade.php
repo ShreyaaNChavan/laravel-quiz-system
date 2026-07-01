@@ -9,7 +9,8 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 flex items-center justify-center px-4">
+ 
+<body class="min-h-screen bg-linear-to-br from-blue-100 via-white to-indigo-100 flex items-center justify-center px-4">
 
     <div class="w-full max-w-md">
 
