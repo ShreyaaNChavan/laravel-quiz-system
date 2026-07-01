@@ -2,52 +2,127 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
 
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 flex items-center justify-center px-4">
 
-    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
+    <div class="w-full max-w-md">
 
-        <h2 class="text-2xl text-center text-gray-800 mb-6">
-            Admin Login
-        </h2>
+        <!-- Login Card -->
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
 
-        @error('user')
-            <div class="text-red-500">{{ $message }}</div>
-        @enderror
+            <!-- Header -->
+            <div class="bg-blue-600 py-8 px-6 text-center">
 
-        <form action="/admin-login" method="POST" class="space-y-4">
-            @csrf
+                <div class="mx-auto w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-lg">
 
-            <div>
-                <label for="name" class="text-gray-600 mb-1 block"> Admin Name</label>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-8 h-8 text-blue-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
 
-                <input type="text" id="name" name="name" placeholder="Enter Admin name"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none">
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5.121 17.804A9 9 0 1118.364 4.56M15 11a3 3 0 11-6 0 3 3 0 016 0zm-3 7a7 7 0 00-5.468 2.633"/>
 
-                @error('name')
-                    <div class="text-red-500">{{ $message }}</div>
-                @enderror
+                    </svg>
+
+                </div>
+
+                <h1 class="text-3xl font-bold text-white mt-4">
+                    Admin Login
+                </h1>
+
+                <p class="text-blue-100 mt-2">
+                    Welcome back! Please login to continue.
+                </p>
+
             </div>
 
-            <div>
-                <label for="password" class="text-gray-600 mb-1 block"> Password</label>
+            <!-- Form -->
+            <div class="p-8">
 
-                <input type="password" id="password" name="password" placeholder="Enter Admin password"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none">
-                @error('password')
-                    <div class="text-red-500">{{ $message }}</div>
+                @error('user')
+                    <div class="mb-5 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-xl">
+                        {{ $message }}
+                    </div>
                 @enderror
+
+                <form action="/admin-login" method="POST" class="space-y-5">
+
+                    @csrf
+
+                    <!-- Username -->
+                    <div>
+
+                        <label for="name" class="block text-gray-700 font-medium mb-2">
+                            Admin Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter Admin Name"
+                            value="{{ old('name') }}"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
+
+                        @error('name')
+                            <p class="text-red-500 text-sm mt-2">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+
+                        <label for="password" class="block text-gray-700 font-medium mb-2">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter Password"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
+
+                        @error('password')
+                            <p class="text-red-500 text-sm mt-2">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+                    </div>
+
+                    <!-- Login Button -->
+                    <button
+                        type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+
+                        Login
+
+                    </button>
+
+                </form>
+
             </div>
 
-            <button type="submit" class="w-full bg-blue-500 text-white rounded-xl px-4 py-2 hover:bg-blue-600">
-                Login
-            </button>
+        </div>
 
-        </form>
+        <!-- Footer -->
+        <p class="text-center text-gray-500 text-sm mt-6">
+            Quiz Management System • Admin Panel
+        </p>
 
     </div>
 

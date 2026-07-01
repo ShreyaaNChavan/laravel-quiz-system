@@ -88,7 +88,7 @@
 
                                 <div class="flex justify-center">
 
-                                    <a href="/show-quiz/{{ $item->id }}/{{ $item->name }}"
+                                    <a href="/show-quiz/{{ $item->id }}"
                                         class="text-blue-500 hover:text-blue-700 transition" title="View Quiz">
 
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"

@@ -40,11 +40,23 @@ class AdminController extends Controller
     {
         $admin = Session::get('admin');
         if ($admin) {
-            return view('admin', ["name" => $admin->name]);
+            $totalCategories = Category::count();
+            $totalQuizzes = Quiz::count();
+            $totalUsers = Admin::count(); // or User::count() if you have a users table
+
+            return view('admin', [
+                "name" => $admin->name,
+                "totalCategories" => $totalCategories,
+                "totalQuizzes" => $totalQuizzes,
+                "totalUsers" => $totalUsers,
+            ]);
         } else {
             return redirect('admin-login');
         }
+
+        
     }
+
 
     function categories()
     {
@@ -84,13 +96,27 @@ class AdminController extends Controller
         return redirect('admin-categories');
     }
 
-    function deleteCategory($id)
+    public function deleteCategory($id)
     {
-        $isDeleted = Category::find($id)->delete();
-        if ($isDeleted) {
-            Session::flash('category', "Succuess: Category deleted.");
-            return redirect('admin-categories');
+        // Get all quizzes of this category
+        $quizzes = Quiz::where('category_id', $id)->get();
+
+        // Delete MCQs of every quiz
+        foreach ($quizzes as $quiz) {
+            Mcq::where('quiz_id', $quiz->id)->delete();
         }
+
+        // Delete all quizzes of this category
+        Quiz::where('category_id', $id)->delete();
+
+        // Finally delete the category
+        $isDeleted = Category::find($id)->delete();
+
+        if ($isDeleted) {
+            Session::flash('category', 'Success: Category deleted successfully.');
+        }
+
+        return redirect('admin-categories');
     }
 
     function addQuiz()
@@ -183,7 +209,7 @@ class AdminController extends Controller
         return redirect("/admin-categories");
     }
 
-    
+
     public function showQuiz($id)
     {
         $admin = Session::get('admin');
@@ -214,4 +240,6 @@ class AdminController extends Controller
             return redirect('admin-login');
         }
     }
+
+
 }

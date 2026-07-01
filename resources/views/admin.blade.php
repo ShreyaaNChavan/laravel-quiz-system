@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
 <body class="bg-gray-100">
 
     <!-- Navbar -->
-     
+
     <x-navbar :name="$name"></x-navbar>
 
     <!-- Dashboard -->
@@ -32,17 +33,23 @@
 
                 <div class="bg-blue-500 text-white rounded-xl p-6 shadow">
                     <h3 class="text-lg font-semibold">Categories</h3>
-                    <p class="text-4xl mt-3">0</p>
+                    <p class="text-4xl font-bold mt-3">
+                        {{ $totalCategories }}
+                    </p>
                 </div>
 
                 <div class="bg-green-500 text-white rounded-xl p-6 shadow">
                     <h3 class="text-lg font-semibold">Quizzes</h3>
-                    <p class="text-4xl mt-3">0</p>
+                    <p class="text-4xl font-bold mt-3">
+                        {{ $totalQuizzes }}
+                    </p>
                 </div>
 
                 <div class="bg-purple-500 text-white rounded-xl p-6 shadow">
                     <h3 class="text-lg font-semibold">Users</h3>
-                    <p class="text-4xl mt-3">0</p>
+                    <p class="text-4xl font-bold mt-3">
+                        {{ $totalUsers }}
+                    </p>
                 </div>
 
             </div>
@@ -52,4 +59,5 @@
     </div>
 
 </body>
+
 </html>

@@ -147,8 +147,11 @@
 
                                     <!-- View Quizzes -->
 
-                                    <a href="/quiz-list/{{ $category->id }}/{{ $category->name }}"
-                                        class="text-blue-500 hover:text-blue-700 transition" title="View Quizzes">
+
+                                    
+
+                                    <a href="/quiz-list/{{ $category->id }}/{{ $category->name }}">
+
 
                                         <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960"
                                             width="22px" fill="currentColor">

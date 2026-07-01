@@ -106,8 +106,7 @@
                 </div>
                 <button type="submit" name="submit" value="add-more"
                     class="w-full bg-blue-500 rounded-xl px-4 py-2 text-white">Add More</button>
-                <button type="submit" name="submit" value="done"
-                    class="w-full bg-green-500 rounded-xl px-4 py-2 text-white">Add and Submit</button>
+            
                 <a class="w-full bg-red-500 block text-center rounded-xl px-4 py-2 text-white" href="/end-quiz">Finish
                     Quiz</a>
 
