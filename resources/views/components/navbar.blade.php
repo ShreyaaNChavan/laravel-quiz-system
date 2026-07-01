@@ -15,7 +15,7 @@
                 Categories
             </a>
 
-            <a href="#" class="text-gray-700 hover:text-blue-600 transition">
+            <a href="/add-quiz" class="text-gray-700 hover:text-blue-600 transition">
                 Quiz
             </a>
 
@@ -23,6 +23,8 @@
                 Welcome,
                 <span class="text-blue-600">{{ $name }}</span>
             </span>
+
+
 
             <a href="/admin-logout" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
                 Logout

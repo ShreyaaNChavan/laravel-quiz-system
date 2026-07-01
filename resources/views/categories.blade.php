@@ -3,38 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Categories</title>
+    <title>Categories</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
 
     <!-- Navbar -->
-    <x-navbar :name="$name"></x-navbar>
+    <x-navbar :name="$name" />
 
+    <!-- Success Message -->
     @if(session('category'))
-        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show"
-            class="max-w-7xl mx-auto mt-6 px-6">
-
-            <div class="bg-green-500 text-white px-5 py-3 rounded-lg shadow-md">
+        <div class="max-w-6xl mx-auto mt-6">
+            <div class="bg-green-100 border-l-4 border-green-600 text-green-800 px-5 py-3 rounded-lg shadow">
                 {{ session('category') }}
             </div>
-
         </div>
     @endif
 
+    <div class="max-w-6xl mx-auto mt-8">
 
-    <!-- Add Category Form -->
-    <div class="flex justify-center pt-10">
+        <!-- Add Category Card -->
 
-        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-10">
 
-            <h2 class="text-2xl text-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">
                 Add Category
             </h2>
 
@@ -42,85 +36,153 @@
 
                 @csrf
 
-                <input type="text" name="category" placeholder="Enter category name"
-                    class="w-full px-4 py-2 border rounded-xl">
+                <div>
 
-                @error('category')
-                    <div class="text-red-500">{{ $message }}</div>
-                @enderror
+                    <input type="text" name="category" placeholder="Enter Category Name"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none">
 
-                <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl">
-                    Add
+                    @error('category')
+                        <p class="text-red-500 text-sm mt-2">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
+
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-xl shadow transition">
+
+                    Add Category
+
                 </button>
 
             </form>
 
         </div>
 
-    </div>
+        <!-- Category List -->
 
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
 
-    <!-- Category Table -->
+            <div class="flex justify-between items-center px-6 py-5 border-b">
 
-    <div class="max-w-6xl mx-auto mt-10">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    Category List
+                </h2>
 
-        <h1 class="text-3xl text-blue-500 font-semibold mb-4">
-            Category List
-        </h1>
+                <span class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm">
+                    Total: {{ count($categories) }}
+                </span>
 
-        <table class="w-full bg-white shadow rounded-lg overflow-hidden">
+            </div>
 
-            <thead class="bg-gray-200">
+            <table class="w-full">
 
-                <tr>
+                <thead class="bg-blue-500 text-white">
 
-                    <th class="text-left p-3">S. No</th>
-                    <th class="text-left p-3">Name</th>
-                    <th class="text-left p-3">Creator</th>
-                    <th class="text-center p-3">Action</th>
+                    <tr>
 
-                </tr>
+                        <th class="text-left p-4 w-20">
+                            #
+                        </th>
 
-            </thead>
+                        <th class="text-left p-4">
+                            Category
+                        </th>
 
-            <tbody>
+                        <th class="text-left p-4">
+                            Creator
+                        </th>
 
-                @foreach($categories as $category)
-
-                    <tr class="border-b even:bg-gray-100 hover:bg-gray-50">
-
-                        <td class="p-3">
-                            {{ $loop->iteration }}
-                        </td>
-
-                        <td class="p-3">
-                            {{ $category->name }}
-                        </td>
-
-                        <td class="p-3">
-                            {{ $category->creator }}
-                        </td>
-
-                        <td class="text-center p-3">
-
-                            <form action="/category/delete/{{ $category->id }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit" class="text-red-600 hover:text-red-800">
-                                    <span class="material-icons">delete</span>
-                                </button>
-                            </form>
-
-                        </td>
+                        <th class="text-center p-4">
+                            Actions
+                        </th>
 
                     </tr>
 
-                @endforeach
+                </thead>
 
-            </tbody>
+                <tbody>
 
-        </table>
+                    @forelse($categories as $category)
+
+                        <tr class="border-b hover:bg-gray-50 transition">
+
+                            <td class="p-4">
+                                {{ $loop->iteration }}
+                            </td>
+
+                            <td class="p-4 font-medium">
+                                {{ $category->name }}
+                            </td>
+
+                            <td class="p-4 text-gray-600">
+                                {{ $category->creator }}
+                            </td>
+
+                            <td class="p-4">
+
+                                <div class="flex justify-center gap-4">
+
+                                    <!-- Delete -->
+
+                                    <form action="/category/delete/{{ $category->id }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this category?')">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="text-red-500 hover:text-red-700 transition"
+                                            title="Delete">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960"
+                                                width="22px" fill="currentColor">
+                                                <path
+                                                    d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336Z" />
+                                            </svg>
+
+                                        </button>
+
+                                    </form>
+
+                                    <!-- View Quizzes -->
+
+                                    <a href="/quiz-list/{{ $category->id }}/{{ $category->name }}"
+                                        class="text-blue-500 hover:text-blue-700 transition" title="View Quizzes">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960"
+                                            width="22px" fill="currentColor">
+                                            <path
+                                                d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Z" />
+                                        </svg>
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="4" class="text-center p-10 text-gray-500">
+
+                                No Categories Found
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
